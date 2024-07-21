@@ -1,10 +1,9 @@
 "use strict";
 
-const fs = require("fs");
+const TennisGame1 = require("./tennis1");
 const each = require("jest-each").default;
-const TennisGame2 = require("./TennisGame2.test");
 
-var allScores = [
+const allScores = [
   [0, 0, "Love-All"],
   [1, 1, "Fifteen-All"],
   [2, 2, "Thirty-All"],
@@ -45,11 +44,11 @@ var allScores = [
   [14, 16, "Win for player2"],
 ];
 
-describe("TennisGame2", function () {
+describe("TennisGame1", function () {
   each(allScores).it(
     "when the points are %s:%s is %s",
     function (p1, p2, expected) {
-      const game = new TennisGame2("player1", "player2");
+      const game = new TennisGame1("player1", "player2");
       for (let i = 0; i < p1; i++) {
         game.wonPoint("player1");
       }
@@ -59,27 +58,4 @@ describe("TennisGame2", function () {
       expect(game.getScore()).toEqual(expected);
     }
   );
-
-  test("Save and Load Game State", () => {
-    const game = new TennisGame2("player1", "player2");
-    game.wonPoint("player1");
-    const savedState = game.saveGame();
-
-    const newGame = new TennisGame2("player1", "player2");
-    newGame.loadGame(savedState);
-
-    expect(newGame.getScore()).toBe("Fifteen-Love");
-  });
-
-  test("Compare with Golden Master", () => {
-    const game = new TennisGame2("player1", "player2");
-    let output = "";
-    game.wonPoint("player1");
-    output += `Score after player1 point: ${game.getScore()}\n`;
-    game.wonPoint("player2");
-    output += `Score after player2 point: ${game.getScore()}\n`;
-
-    const goldenMaster = fs.readFileSync("golden_master.txt", "utf-8");
-    expect(output).toBe(goldenMaster);
-  });
 });
