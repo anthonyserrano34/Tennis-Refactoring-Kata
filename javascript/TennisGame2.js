@@ -1,120 +1,66 @@
-var TennisGame2 = function(player1Name, player2Name) {
-    this.P1point = 0;
-    this.P2point = 0;
-
-    this.P1res = "";
-    this.P2res = "";
-
-    this.player1Name = player1Name;
-    this.player2Name = player2Name;
-};
-
-TennisGame2.prototype.getScore = function() {
-    var score = "";
-
-    if (this.P1point === this.P2point && this.P1point < 3) {
-        if (this.P1point === 0)
-            score = "Love";
-        if (this.P1point === 1)
-            score = "Fifteen";
-        if (this.P1point === 2)
-            score = "Thirty";
-        score += "-All";
-    }
-    if (this.P1point === this.P2point && this.P1point > 2)
-        score = "Deuce";
-
-    if (this.P1point > 0 && this.P2point === 0) {
-        if (this.P1point === 1)
-            this.P1res = "Fifteen";
-        if (this.P1point === 2)
-            this.P1res = "Thirty";
-        if (this.P1point === 3)
-            this.P1res = "Forty";
-
-        this.P2res = "Love";
-        score = this.P1res + "-" + this.P2res;
-    }
-    if (this.P2point > 0 && this.P1point === 0) {
-        if (this.P2point === 1)
-            this.P2res = "Fifteen";
-        if (this.P2point === 2)
-            this.P2res = "Thirty";
-        if (this.P2point === 3)
-            this.P2res = "Forty";
-
-        this.P1res = "Love";
-        score = this.P1res + "-" + this.P2res;
+class TennisGame2 {
+    constructor(player1Name, player2Name) {
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
+        this.resetPoints();
+        this.pointHistory = [];  
     }
 
-    if (this.P1point > this.P2point && this.P1point < 4) {
-        if (this.P1point === 2)
-            this.P1res = "Thirty";
-        if (this.P1point === 3)
-            this.P1res = "Forty";
-        if (this.P2point === 1)
-            this.P2res = "Fifteen";
-        if (this.P2point === 2)
-            this.P2res = "Thirty";
-        score = this.P1res + "-" + this.P2res;
-    }
-    if (this.P2point > this.P1point && this.P2point < 4) {
-        if (this.P2point === 2)
-            this.P2res = "Thirty";
-        if (this.P2point === 3)
-            this.P2res = "Forty";
-        if (this.P1point === 1)
-            this.P1res = "Fifteen";
-        if (this.P1point === 2)
-            this.P1res = "Thirty";
-        score = this.P1res + "-" + this.P2res;
+    resetPoints() {
+        this.P1point = 0;
+        this.P2point = 0;
+        this.P1res = "";
+        this.P2res = "";
     }
 
-    if (this.P1point > this.P2point && this.P2point >= 3) {
-        score = "Advantage player1";
+    getScore() {
+        if (this.P1point === this.P2point) {
+            return this.P1point < 3 ? `${this.pointToString(this.P1point)}-All` : 'Deuce';
+        }
+
+        if (this.P1point >= 4 || this.P2point >= 4) {
+            const pointDifference = this.P1point - this.P2point;
+            if (pointDifference === 1) return 'Avantage joueur 1';
+            if (pointDifference === -1) return 'Avantage joueur 2';
+            if (pointDifference >= 2) return 'Victoire pour joueur 1';
+            if (pointDifference <= -2) return 'Victoire pour joueur 2';
+        }
+
+        return `${this.pointToString(this.P1point)}-${this.pointToString(this.P2point)}`;
     }
 
-    if (this.P2point > this.P1point && this.P1point >= 3) {
-        score = "Advantage player2";
+    pointToString(point) {
+        switch (point) {
+            case 0: return 'Love';
+            case 1: return 'Quinze';
+            case 2: return 'Trente';
+            case 3: return 'Quarante';
+        }
     }
 
-    if (this.P1point >= 4 && this.P2point >= 0 && (this.P1point - this.P2point) >= 2) {
-        score = "Win for player1";
+    wonPoint(player) {
+        if (player === "joueur1") {
+            this.P1point++;
+            this.pointHistory.push(`${this.player1Name} a gagné un point`); 
+        } else {
+            this.P2point++;
+            this.pointHistory.push(`${this.player2Name} a gagné un point`); 
+        }
     }
-    if (this.P2point >= 4 && this.P1point >= 0 && (this.P2point - this.P1point) >= 2) {
-        score = "Win for player2";
+
+    getHistory() {
+        return this.pointHistory.join('\n');  
     }
-    return score;
-};
 
-TennisGame2.prototype.SetP1Score = function(number) {
-    var i;
-    for (i = 0; i < number; i++) {
-        this.P1Score();
+    setPlayer1Score(points) {
+        this.P1point += points;
     }
-};
 
-TennisGame2.prototype.SetP2Score = function(number) {
-    var i;
-    for (i = 0; i < number; i++) {
-        this.P2Score();
+    setPlayer2Score(points) {
+        this.P2point += points;
     }
-};
+}
 
-TennisGame2.prototype.P1Score = function() {
-    this.P1point++;
-};
-
-TennisGame2.prototype.P2Score = function() {
-    this.P2point++;
-};
-
-TennisGame2.prototype.wonPoint = function(player) {
-    if (player === "player1")
-        this.P1Score();
-    else
-        this.P2Score();
-};
 
 if (typeof window === "undefined") {
     module.exports = TennisGame2;
