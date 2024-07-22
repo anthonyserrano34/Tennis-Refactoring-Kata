@@ -1,28 +1,52 @@
-0-0: Love-All
-0-1: Love-Fifteen
-0-2: Love-Thirty
-0-3: Love-Forty
-0-4: Win for player2
-1-0: Fifteen-Love
-1-1: Fifteen-All
-1-2: Fifteen-Thirty
-1-3: Fifteen-Forty
-1-4: Win for player2
-2-0: Thirty-Love
-2-1: Thirty-Fifteen
-2-2: Thirty-All
-2-3: Thirty-Forty
-2-4: Win for player2
-3-0: Forty-Love
-3-1: Forty-Fifteen
-3-2: Forty-Thirty
-3-3: Deuce
-3-4: Advantage player2
-4-0: Win for player1
-4-1: Win for player1
-4-2: Win for player1
-4-3: Advantage player1
-4-4: Deuce
-4-4: Deuce
-5-4: Advantage player1
-6-4: Win for player1
+Score 0-0: Love-All
+Score 0-1: Love-Fifteen
+Score 0-2: Love-Thirty
+Score 0-3: Love-Forty
+Score 0-4: Love-All
+Score 0-5: Love-Fifteen
+Score 0-6: Love-Thirty
+Score 1-0: Fifteen-Love
+Score 1-1: Fifteen-All
+Score 1-2: Fifteen-Thirty
+Score 1-3: Fifteen-Forty
+Score 1-4: Love-All
+Score 1-5: Love-Fifteen
+Score 1-6: Love-Thirty
+Score 2-0: Thirty-Love
+Score 2-1: Thirty-Fifteen
+Score 2-2: Thirty-All
+Score 2-3: Thirty-Forty
+Score 2-4: Love-All
+Score 2-5: Love-Fifteen
+Score 2-6: Love-Thirty
+Score 3-0: Forty-Love
+Score 3-1: Forty-Fifteen
+Score 3-2: Forty-Thirty
+Score 3-3: Deuce
+Score 3-4: Advantage player2
+Score 3-5: Love-All
+Score 3-6: Love-Fifteen
+Score 4-0: Love-All
+Score 4-1: Love-Fifteen
+Score 4-2: Love-Thirty
+Score 4-3: Love-Forty
+Score 4-4: Love-All
+Score 4-5: Love-Fifteen
+Score 4-6: Love-Thirty
+Score 5-0: Fifteen-Love
+Score 5-1: Fifteen-All
+Score 5-2: Fifteen-Thirty
+Score 5-3: Fifteen-Forty
+Score 5-4: Love-All
+Score 5-5: Love-Fifteen
+Score 5-6: Love-Thirty
+Score 6-0: Thirty-Love
+Score 6-1: Thirty-Fifteen
+Score 6-2: Thirty-All
+Score 6-3: Thirty-Forty
+Score 6-4: Love-All
+Score 6-5: Love-Fifteen
+Score 6-6: Love-Thirty
+Game result after player1 wins: {"player1":22,"player2":20}
+Game result after player2 wins: {"player1":22,"player2":21}
+Game result after player1 wins again: {"player1":23,"player2":22}

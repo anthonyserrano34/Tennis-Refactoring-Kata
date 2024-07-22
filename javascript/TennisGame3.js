@@ -1,59 +1,88 @@
-const SCORE_NAMES = ["Love", "Fifteen", "Thirty", "Forty"];
-
-var TennisGame3 = function (p1N, p2N) {
-  this.p2 = 0;
-  this.p1 = 0;
-
-  this.p1N = p1N;
-  this.p2N = p2N;
-};
-
-TennisGame3.prototype.getScore = function () {
-  if (this.isEarlyGame()) {
-    return this.getEarlyGameScore();
-  } else {
-    return this.getLateGameScore();
+class TennisGame3 {
+  constructor(p1Name, p2Name) {
+    this.p1Score = 0;
+    this.p2Score = 0;
+    this.p1Name = p1Name;
+    this.p2Name = p2Name;
+    this.p1GamesWon = 0;
+    this.p2GamesWon = 0;
   }
-};
 
-TennisGame3.prototype.isEarlyGame = function () {
-  return this.p1 < 4 && this.p2 < 4 && this.p1 + this.p2 < 6;
-};
+  wonPoint(playerName) {
+    if (playerName === this.p1Name) {
+      this.p1Score += 1;
+    } else if (playerName === this.p2Name) {
+      this.p2Score += 1;
+    }
 
-TennisGame3.prototype.getEarlyGameScore = function () {
-  let score = SCORE_NAMES[this.p1];
-  return this.p1 == this.p2
-    ? score + "-All"
-    : score + "-" + SCORE_NAMES[this.p2];
-};
-
-TennisGame3.prototype.getLateGameScore = function () {
-  if (this.p1 == this.p2) return "Deuce";
-  let leader = this.p1 > this.p2 ? this.p1N : this.p2N;
-  return Math.abs(this.p1 - this.p2) == 1
-    ? "Advantage " + leader
-    : "Win for " + leader;
-};
-
-TennisGame3.prototype.wonPoint = function (playerName) {
-  if (playerName === this.p1N) {
-    this.p1 += 1;
-  } else if (playerName === this.p2N) {
-    this.p2 += 1;
-  } else {
-    throw new Error("Invalid player name");
+    if (this.isGameWon()) {
+      this.recordGameWin();
+      this.resetScores();
+    }
   }
-};
 
-TennisGame3.prototype.reset = function () {
-  this.p1 = 0;
-  this.p2 = 0;
-};
+  getScore() {
+    if (this.isRegularScore()) {
+      return this.getRegularScore();
+    } else {
+      return this.getSpecialScore();
+    }
+  }
 
-TennisGame3.prototype.getNumericScore = function () {
-  return `${this.p1}-${this.p2}`;
-};
+  isRegularScore() {
+    return (
+      this.p1Score < 4 && this.p2Score < 4 && this.p1Score + this.p2Score < 6
+    );
+  }
 
-if (typeof window === "undefined") {
+  getRegularScore() {
+    const scoreNames = ["Love", "Fifteen", "Thirty", "Forty"];
+    if (this.p1Score === this.p2Score) {
+      return `${scoreNames[this.p1Score]}-All`;
+    }
+    return `${scoreNames[this.p1Score]}-${scoreNames[this.p2Score]}`;
+  }
+
+  getSpecialScore() {
+    if (this.p1Score === this.p2Score) {
+      return "Deuce";
+    }
+    const scoreDifference = this.p1Score - this.p2Score;
+    const leadingPlayer =
+      this.p1Score > this.p2Score ? this.p1Name : this.p2Name;
+    return Math.abs(scoreDifference) === 1
+      ? `Advantage ${leadingPlayer}`
+      : `Win for ${leadingPlayer}`;
+  }
+
+  isGameWon() {
+    return (
+      (this.p1Score >= 4 && this.p1Score - this.p2Score >= 2) ||
+      (this.p2Score >= 4 && this.p2Score - this.p1Score >= 2)
+    );
+  }
+
+  recordGameWin() {
+    if (this.p1Score > this.p2Score) {
+      this.p1GamesWon += 1;
+    } else {
+      this.p2GamesWon += 1;
+    }
+  }
+
+  resetScores() {
+    this.p1Score = 0;
+    this.p2Score = 0;
+  }
+
+  getGamesWon() {
+    return {
+      [this.p1Name]: this.p1GamesWon,
+      [this.p2Name]: this.p2GamesWon,
+    };
+  }
+}
+
+if (typeof module !== "undefined" && module.exports) {
   module.exports = TennisGame3;
 }
